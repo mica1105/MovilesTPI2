@@ -99,27 +99,6 @@ public class MainActivity extends AppCompatActivity {
         dialogo.show();
     }
 
-    /*public void acceder(){
-        Uri sms = Telephony.Sms.CONTENT_URI;
-        ContentResolver cr = getContentResolver();
-        Cursor c = cr.query(sms,null,null, null,null);
-        if (c.getCount()>0){
-            int i= 0;
-            while (c.moveToNext() && i<5){
-                i++;
-                String nro= c.getString(c.getColumnIndex(Telephony.Sms.Inbox.ADDRESS));
-                //String fecha= c.getString(c.getColumnIndex(Telephony.Sms.Inbox.DATE));
-                String contenido = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.BODY));
-                Log.d("salida",nro);
-                //Log.d("salida",fecha);
-                Log.d("salida",contenido);
-            }
-        }
-        if(ContextCompat.checkSelfPermission(this, READ_SMS) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Conceder Permisos", Toast.LENGTH_LONG);
-        }
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();

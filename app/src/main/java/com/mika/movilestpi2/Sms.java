@@ -25,7 +25,7 @@ public class Sms extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (ContextCompat.checkSelfPermission(this, READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Conceder Permisos", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Conceder Permisos", Toast.LENGTH_LONG).show();
         }
         Uri sms = Telephony.Sms.CONTENT_URI;
         ContentResolver cr = getContentResolver();
@@ -43,7 +43,7 @@ public class Sms extends Service {
                     }
                 }
             }
-            if(x==18000){
+            if (x == 45000){
                 break;
             }
         }
