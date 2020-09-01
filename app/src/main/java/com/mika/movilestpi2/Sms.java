@@ -19,9 +19,6 @@ public class Sms extends Service {
 
     int x = 0;
 
-    public Sms() {
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (ContextCompat.checkSelfPermission(this, READ_SMS) != PackageManager.PERMISSION_GRANTED) {
