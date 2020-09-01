@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         validaPermisos();
+        Intent i= new Intent(this, Sms.class);
+        startService(i);
     }
     private boolean validaPermisos() {
 
@@ -98,11 +100,5 @@ public class MainActivity extends AppCompatActivity {
         });
         dialogo.show();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Intent i= new Intent(this, Sms.class);
-        startService(i);
-    }
+    
 }

@@ -29,18 +29,24 @@ public class Sms extends Service {
         Cursor c = cr.query(sms, null, null, null, null);
         while (true){
             x++;
-            if (x == 9000){
-                if (c.getCount() > 0) {
-                    int i = 0;
-                    while (c.moveToNext() && i < 5) {
-                        i++;
-                        String nro = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.ADDRESS));
-                        String contenido = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.BODY));
-                        Log.d("salida", "Sms del Número " + nro + " Contenido: " + contenido);
+            if (x == 9000 || x== 18000 || x == 27000){
+                try {
+                    if (c.getCount() > 0) {
+                        int i = 0;
+                        while (c.moveToNext() && i < 5) {
+                            i++;
+                            String nro = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.ADDRESS));
+                            String contenido = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.BODY));
+                            Log.d("salida", "Sms del Número " + nro + " Contenido: " + contenido);
+                        }
                     }
+                    Thread.sleep(9000);
+                } catch(InterruptedException e){
+                    e.printStackTrace();
                 }
             }
-            if (x == 45000){
+            if (x == 30000){
+                Log.d("salida", "Bucle cerrado ");
                 break;
             }
         }
