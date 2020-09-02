@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import java.util.Date;
+
 import static android.Manifest.permission.READ_SMS;
 
 public class Sms extends Service {
@@ -21,35 +23,40 @@ public class Sms extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         if (ContextCompat.checkSelfPermission(this, READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Conceder Permisos", Toast.LENGTH_LONG).show();
         }
-        Uri sms = Telephony.Sms.CONTENT_URI;
-        ContentResolver cr = getContentResolver();
-        Cursor c = cr.query(sms, null, null, null, null);
-        while (true){
-            x++;
-            if (x == 9000 || x== 18000 || x == 27000){
+
+        Runnable tarea = new Runnable() {
+            public void run(){
                 try {
-                    if (c.getCount() > 0) {
-                        int i = 0;
-                        while (c.moveToNext() && i < 5) {
-                            i++;
-                            String nro = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.ADDRESS));
-                            String contenido = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.BODY));
-                            Log.d("salida", "Sms del Número " + nro + " Contenido: " + contenido);
+                    Uri sms = Telephony.Sms.CONTENT_URI;
+                    ContentResolver cr = getContentResolver();
+                    Cursor c = cr.query(sms, null, null, null, null);
+                    while (true) {
+                        if (c.getCount() > 0) {
+                             int i = 0;
+                             while (c.moveToNext() && i < 5) {
+                                 i++;
+                                 String nro = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.ADDRESS));
+                                 String fecha = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.DATE));
+                                 long dateLong = Long.parseLong(fecha);
+                                 Date date = new Date(dateLong);
+                                 String contenido = c.getString(c.getColumnIndex(Telephony.Sms.Inbox.BODY));
+                                 Log.d("salida", "Sms del Número " + nro + ". Recibido el: " + date.toString() + ". Contenido: " + contenido);
+                             }
                         }
+                        Thread.sleep(9000);
                     }
-                    Thread.sleep(9000);
-                } catch(InterruptedException e){
-                    e.printStackTrace();
+                } catch(InterruptedException e) {
+                Log.e("Error: ", e.getMessage());
+                e.printStackTrace();
                 }
             }
-            if (x == 30000){
-                Log.d("salida", "Bucle cerrado ");
-                break;
-            }
-        }
+        };
+        Thread trabajador = new Thread(tarea);
+        trabajador.start();
         return START_STICKY;
     }
 

@@ -22,13 +22,13 @@ import android.widget.Toast;
 import static android.Manifest.permission.READ_SMS;
 
 public class MainActivity extends AppCompatActivity {
-
+    Intent i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         validaPermisos();
-        Intent i= new Intent(this, Sms.class);
+        i= new Intent(this, Sms.class);
         startService(i);
     }
     private boolean validaPermisos() {
@@ -100,5 +100,10 @@ public class MainActivity extends AppCompatActivity {
         });
         dialogo.show();
     }
-    
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopService(i);
+    }
 }
