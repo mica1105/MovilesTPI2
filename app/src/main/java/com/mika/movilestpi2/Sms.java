@@ -33,8 +33,9 @@ public class Sms extends Service {
                 try {
                     Uri sms = Telephony.Sms.CONTENT_URI;
                     ContentResolver cr = getContentResolver();
-                    Cursor c = cr.query(sms, null, null, null, null);
+
                     while (true) {
+                        Cursor c = cr.query(sms, null, null, null, null);
                         if (c.getCount() > 0) {
                              int i = 0;
                              while (c.moveToNext() && i < 5) {
